@@ -1,50 +1,42 @@
 # deep-learning-challenge
 
 ## Module 21 Homework Deep Learning Challenge
-### Description:
-This is the Module 21 Homework deep-learning-challenge. It is using scikit-learn (Reference: https://scikit-learn.org/stable/) for Python along with tensorflow (https://www.tensorflow.org/) for deep machine learning. It involves using various combinations of data inputs, neurons in hidden layers and activations (as noted below). Its aim is to calculate the probability of a correct prediction of successful funding applications. Jupyter Lab has been used as the editor, including pandas libraries. 
-
-### Getting started:
-This challenge has 1 project called: Deep Learning Challenge using a Jupyter Notebook file called Starter Code.ipynb, which contains a URL link to access a csv file  file called charity_data.csv
-
-### Installations required:
-This project has been run in a Windows 11 GitBash environment, using Python 3.10.13 together with Jupyter Lab as the editor.  There was also a requirement to import scikit-learn and tensorflow libraries, together with an installation of the keras-tuner for tensorflow.  (https://www.tensorflow.org/tutorials/keras/keras_tuner)
-
-### Executing Homework Challenge Requirements:
-In the Deep_Learning_Challenge folder, please see the Starter_Code.ipynb file for the script which performs all code for Steps 1 and 2 of the project. These steps involved (1) preprocessing the data, and (2) compiling, training and evaluating the model. I have written code in the Starter_Code.ipynb file to achieve outputs that match the requirements given. 
-
-In the folder named 'Optimsation Attempts using class strategies from PDF', I made 3 attempts at optimization using techniques learnt in class as per the PDF located at:  https://git.bootcampcontent.com/Monash-University/MONU-VIRT-DATA-PT-02-2024-U-LOLC/-/tree/main/01-Lesson-Plans/21-Neural-Networks-Deep-Learning/2?ref_type=heads: 
-
-* (1) using 'tanh' as an activation function in a hidden layer, instead of 'relu', to try io increase the accuracy of the model to over 75%.
-
-* (2) using 200 epochs instead of 100 epochs to try to reduce the loss and increase the accuracy of the model of over 75%.
-
-* (3) using a third hidden layer to try to find additional relationships between the data, and get the accuracy of the data to over 75%.
-
-Given that none, of the above optimization attempts increased the accuracy to over 75%, I tried using a keras_tuner to again reduce loss, and increase accuracy of the model.  
-
-See the folder named 'Optimization Attempts using Keras Tuner', where I tried 2 models, one with far less neurons ('AlphabetSoupCharity_Optimisation.ipynb') than that original starter_code.ipynb file, and one 50 to 80 neurons as the units for the first layer ('AlphabetSoupCharity_Optimisation_Final_More_Neurons.ipynb') 
-
-
-## Overview of the Analysis - Deep Learning Report:
 
 ### Purpose:
-The purpose of the analysis in the deep learning project was to determine how accurate the deep learning  model was for identifying successful funding applications.  
+The purpose of the deep learning challenge was to determine how accurate a deep learning model was for predicting that the money granted for the application was used efficiently, resulting in a successful project. 
 
-### Data Preprocessing
-Deep Learning models have the following main variables determined during preprocessing: 
+### Installations required:
+This project has been run in a Windows 11 GitBash environment, using Python 3.10.13 together with Jupyter Lab as the editor.  There was also a requirement to:
+1. Use scikit-learn (Reference: https://scikit-learn.org/stable/),
+2. Use tensorflow (https://www.tensorflow.org/),
+3. Install and use the keras_tuner for tensorflow (https://www.tensorflow.org/tutorials/keras/keras_tuner)
+4. Used the pandas library for Python
 
-* (1) A target outcome, which for this project is named "IS_SUCCESSFUL" (represented in the model by 'y'), and
-*
-* (2) features, which for this project are the remaining 43 'encoded' fields of data (inputs) (represented by X).
+## Overview of the Analysis - Deep Learning Report:
+#### Data Preprocessing
 
-Having grouped potenital outliers in the data, and then encoded the data, the features are now all of numeric values which can be correlated to determine the probability of correctly predicting the outcome.  
+In the Deep_Learning_Challenge folder, please see the Starter_Code.ipynb file for the script which performs all code for Steps 1 and 2 of the project. This file contains a URL link to access a csv file called charity_data.csv.  This file is used to load the source data for this project.
 
-In this project, the target for each data record was that it represented either a successful application where the funding was used efficiently (indicted by 0) or an unsuccessful application where the funding was not used efficiently (indicated by 1).  
-
+This source data was grouped, to try to reduce the influence of any outlier data, and then encoded to ensure the data was in a numerical format, which can be correlated to determine the probability of correctly predicting the outcome.  <br> 
+In this project, the target for each data record was that it represented either a successful application where the funding was used efficiently (indicted by 0) or an unsuccessful application where the funding was not used efficiently (indicated by 1).  <br>
 Any non-numeric data, which is not relevant to the determination of the success of the project, such as the EIN and NAME columns which are for project identification only, where removed from the input data.
 
-### Compiling, Training and Evaluating the Model
+Deep Learning models have the following main variables determined during preprocessing: 
+
+* (1) A target outcome, which for this project is named "IS_SUCCESSFUL" (represented in the model by 'y'), and <br>
+* (2) features, which for this project are the remaining 43 'encoded' fields of data (inputs) (represented by X).
+
+--------------------------------------------------------------------------
+###### Split our preprocessed data into our features and target arrays
+y = encoded_application_df.IS_SUCCESSFUL.values <br>
+X = encoded_application_df.drop(columns = 'IS_SUCCESSFUL').values
+
+--------------------------------------------------------------------------
+#### Compiling, Training and Evaluating the Model
+The X and y data is then divided into a training dataset (75% of the data) and a testing dataset (25% of the data) <br>
+The data in these datasets is scaled and fitted to a Sequential data model, for which the following paramenters were given as to what the shape of the starter_code model should look like:
+
+-------------------------------------------------------------------------------------------
 The starter_code provided, indicated the following model was to be used 
 
 Model: "sequential"
@@ -60,41 +52,78 @@ Model: "sequential"
  Total params: 5,981 (23.36 KB)
  Trainable params: 5,981 (23.36 KB)
  Non-trainable params: 0 (0.00 B)
- 
-### Data Preprocessing### Data Preprocessing
 
-### Summary Results
+--------------------------------------------------------------------------------------------
+
+I determined from the above table there should be 80 neurons (as per the Output Shape) in the first hidden layer of the model, to process the 43 features input as per the X dataset for training the model<br>
+
+So to start training the model, we have: <br>
+    43 data inputs X 80 neurons in the first hidden layer + 80 'biases' (one for each neuron) = 3,520 Params, as shown in the above table. See dense layer in table<br> The activation specified for this layer is the Rectified Linear Unit or 'relu', which is the most commonly used activation.
+
+Moving to the second hidden layer, we have:
+    80 inputs from the neurons in the first hidden layer X 30 neurons in the second hidden layer (as per the Output Shape) + 30 'biases' (one for each new neuron) = 2430 Params, as show in the above table. See dense_1 layer in table<br>    Again, the 'relu' activiation is used
+
+Finally we move to the outer layer, where we have:
+    30 inputs from the neurons in the second hidden layer X 1 output (as per the Output Shape) + 1 'bias' for the single output = 31 as per the above table. See dense_2 later in table. <br>  The activation specified for this layer is the Sigmoid Function, used for outputs relating the probability of predictions.
+     
+Having defined the inputs and neurons and outputs in the model, I compiled the model. <br> 
+
+Once compiled, the number of epochs (iterations for the model is defined) and the fit process that trains the model start iterating through the number of epochs defined, which in this scenario was 100.    As the iterations occur, the model is adjusting the weighted values it applies to the input data, to try to correctly train the model.
+
+-----------------------------------------------------------------------------------------------------
+
+Output of the Epoch iterations, showing accuracy of the predictive model
+
+Epoch 1/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 5s 3ms/step - accuracy: 0.6213 - loss: 0.6677
+Epoch 2/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - accuracy: 0.7205 - loss: 0.5715
+Epoch 3/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - accuracy: 0.7256 - loss: 0.5596
+Epoch 4/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - accuracy: 0.7332 - loss: 0.5515
+Epoch 5/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - accuracy: 0.7305 - loss: 0.5520
+Epoch 6/100
+804/804 ━━━━━━━━━━━━━━━━━━━━ 2s 3ms/step - accuracy: 0.7353 - l
+
+etc
+
+----------------------------------------------------------------------------------------------------
+Reference: https://blog.metaphysic.ai/weights-in-machine-learning/#:~:text=During%20the%20training%20process%2C%20a,weighted%20sum%20that's%20been%20calculated.0o### Summary Results for Steps 1 and 2
+Once thew 100 epochs have run, the test dataset is used to evaluate the accuracy of the model and it's ability to predict a successful funding application.  It also takes into account the amount of data loss occurring in the model. 
+
+Using the model as indicated in the Starter_code.ipynb file, we only get an accuracy of about 72.33%, as per this screen print from the evaluation step in the code.  
+
+---------------------------------------------------------------------
+268/268 - 0s - 2ms/step - accuracy: 0.7233 - loss: 0.5662
+Loss: 0.5661863088607788, Accuracy: 0.7232652902603149
+
+---------------------------------------------------------------------n
+The resulting model is stored in the AlphabetSoupCharity.h5 
+This result is very close to the 72.63% result in the example given in the starter_code to indicate an approximate expected outcome.
 
 
+#### Optimizing the Model
+Step 3 of the project was to try optimising the model to get the probability of predicting the funding application outcome to above 75% (which is relatively low success rate for a predictability)
 
-### Financial Loan input data for predictions
-The input data in the lending_data.csv file had a loan_status column to indicate if the loan was healthy (indicated by 0), or high-risk (indicated by 1).  Logisitc Regression is a form of supervised learning, and as is the case with supervised learning models, we know the answer to the question we are analysing (that is we know the loan_status as either a 0 or 1), and we are determining how well the Logistic Regression model predicts the correct outcome, to enable accurate classification of the data into the healthy and high-risk loans.
+### 'Manual' optimization techniques as learnt in class (PDF file)ts given. 
 
-### Data preparation and machine learning steps used in the analysis
-To create an X and y variable, the loan_status was separated from the lending_data.csv file, with this single column of loan status data being used as the y variable, which represents the 'target' or 'labels' for the two possible outcomes (healthy loans and high-risk loans.)  The remaining columns of data in the lending_data.csv file form the X variable 'features' of the loans and include items such as the loan size, interest rate, borrower income, debt to income ratio, and total debt.  
+In the folder named 'Optimsation Attempts using class strategies from PDF', I made 3 attempts at optimization using techniques learnt in class as per the PDF located at:  https://git.bootcampcontent.com/Monash-University/MONU-VIRT-DATA-PT-02-2024-U-LOLC/-/tree/main/01-Lesson-Plans/21-Neural-Networks-Deep-Learning/2?ref_type=heads: 
 
-The scikit-learn train_test_split function, then uses the X and y variables to split the data into a train dataset that will teach the Logistic Regression model, and a test dataset that will test the Logistic Regression model after it is trained, with the aim of seeing how accurately the model predicts the status of the loans. 
+* (1) using 'tanh' as an activation function in a hidden layer, instead of 'relu', to try io increase the accuracy of the model to over 75%.
 
-The scikit-learn Logistic Regression function is then called and uses the training data for the X and y axis along with other functions such as the default solver 'lbfgs' and a maximum of 200 interations to control the model's performance and the .fit function to process the data in the Logistic Regression model.  
+* (2) using 200 epochs instead of 100 epochs to try to reduce the loss and increase the accuracy of the model of over 75%.
 
-The resulting trained Logistic Regression model, is then used to process the test data for the X and y access to predict which records and healthy loans and which records are high risk loans.  The resulting predictions are compared to the actual loan status to see how accurate the predictions are.
+* (3) using a third hidden layer to try to find additional relationships between the data, and get the accuracy of the data to over 75%.
 
-If this project, is would appear theat the model was very accurate for the healthy loans and also reasonably accurate for the high-risk loans, as further explained in the Results section below.
+Given that none, of the above optimization attempts increased the accuracy to over 75%, I tried using a keras_tuner to again reduce loss, and increase accuracy of th
+### Keras-tuner optimization techniquese model.  
 
-To further test the accuracy of the model, the predictions and actual loan status data were analysed with the Confusion Matrix and the Classification Report functions from scikit learn. 
+See the folder named 'Optimization Attempts using Keras Tuner', where I tried 2 models, one with far less neurons ('AlphabetSoupCharity_Optimisation.ipynb') than that original starter_code.ipynb file, and one 50 to 80 neurons as the units for the first layer ('AlphabetSoupCharity_Optimisation_Final_More_Neurons### Summary Results for Step 3
+As per the details below, I tried both 'manual' techiniques suggested in class exercises, and also the more automated tuning process of the keras tuner model.   However, I was not able to get any models to reach 75% or more in accuracy.  This highest achieved was still only 0.7278 accuracy, and the rate of loss really never slowed in any of the techniques attempted. .pprovers. 
 
+#### References:
+https://stackoverflow.com/questions/33191744/how-to-add-new-line-in-markdown-presentation
 
-## Results Analysis using precision and recall scores and accuracy measures
-
-### Machine Learning Logisitc Regression Model:
- 
-* Using the classification report, we see that this logistic regression model did a very good job at predicting the healthy loans, with the model achieving 100% precision and 100% recall for healthly loans.
-* While the model does have 99% accuracy overall and a weighted average accuracy of 99%, these very high percentages, are potentially skewed by the input data have many more healthy loan records, than high-risk loan records.
-* The macro average accuracy of 94%, and the precision and recall percentages of 87% and 89% respectively for high-risk loans, are indicative of the logistic regression model being slightly less accurate for predicting high-risk loans. So to improve the model further, attention would need to be paid to identifying features that help determine high-risk loans.
-
-## Summary
-
-In summary, the Logistic Regression model did an excellent job at predicting the healthly loans as demonstrated by the accurancy, precision and recall scores noted above. The confusion matrix rows and columns both add to the total of 19384 records in the model, which is another indicator that the model is accurate.  The classification report further indicated that the model does a good job predicting high-risk loan between 88% and 94% of the time.
-This model can be recommended to predict the outcome for loans.  However, further analysis of high-risk home loans is needed, potentially with a more advanced machine learning model, considering more features that indicate tendency for a loan to become high-risk. 
-
-The performance of the model is important, particularly in correctly identifying loan status = 1 for the loans that are high-risk, so that measures can be taken to further analyse characteristics of why the loans are high risk, and to avoid approval of such loans in the further. It would also be useful to further train the model to try to eliminate false positve and false negative predictions.  This would help to ensure that loans are correctly identified as healthy or high-risk, so that appropriate actions can be taken by loan approvers. 
+https://www.markdownguide.org/basic-syntax/
