@@ -61,7 +61,7 @@ So to start training the model, we have: <br>
     43 data inputs X 80 neurons in the first hidden layer + 80 'biases' (one for each neuron) = 3,520 Params, as shown in the above table. See dense layer in table<br> The activation specified for this layer is the Rectified Linear Unit or 'relu', which is the most commonly used activation.
 
 Moving to the second hidden layer, we have:
-    80 inputs from the neurons in the first hidden layer X 30 neurons in the second hidden layer (as per the Output Shape) + 30 'biases' (one for each new neuron) = 2430 Params, as show in the above table. See dense_1 layer in table<br>    Again, the 'relu' activiation is used
+    80 inputs from the neurons in the first hidden layer X 30 neurons in the second hidden layer (as per the Output Shape) + 30 'biases' (one for each new neuron) = 2430 Params, as show in the above table. See dense_1 layer in table<br>    Again, the 'relu' activation is used
 
 Finally we move to the outer layer, where we have:
     30 inputs from the neurons in the second hidden layer X 1 output (as per the Output Shape) + 1 'bias' for the single output = 31 as per the above table. See dense_2 later in table. <br>  The activation specified for this layer is the Sigmoid Function, used for outputs relating the probability of predictions.
@@ -90,26 +90,28 @@ Epoch 6/100
 etc
 
 ----------------------------------------------------------------------------------------------------
-Reference: https://blog.metaphysic.ai/weights-in-machine-learning/#:~:text=During%20the%20training%20process%2C%20a,weighted%20sum%20that's%20been%20calculated.0o### Summary Results for Steps 1 and 2
-Once thew 100 epochs have run, the test dataset is used to evaluate the accuracy of the model and it's ability to predict a successful funding application.  It also takes into account the amount of data loss occurring in the model. 
+Reference: https://blog.metaphysic.ai/weights-in-machine-learning/#:~:text=During%20the%20training%20process%2C%20a,weighted%20sum%20that's%20been%20calculated.0o### <br> 
 
-Using the model as indicated in the Starter_code.ipynb file, we only get an accuracy of about 72.33%, as per this screen print from the evaluation step in the code.  
+### Summary Results for Steps 1 and 2
+Once thew 100 epochs have run, the test dataset is used to evaluate the accuracy of the model and it's ability to predict a successful funding application.  It also takes into account the amount of data loss occurring in the model. <br>
+
+Using the model as indicated in the Starter_code.ipynb file, we only get an accuracy of about 72.33%, as per this screen print from the evaluation step in the code.<br>
 
 ---------------------------------------------------------------------
 268/268 - 0s - 2ms/step - accuracy: 0.7233 - loss: 0.5662
 Loss: 0.5661863088607788, Accuracy: 0.7232652902603149
 
----------------------------------------------------------------------n
-The resulting model is stored in the AlphabetSoupCharity.h5 
-This result is very close to the 72.63% result in the example given in the starter_code to indicate an approximate expected outcome.
+---------------------------------------------------------------------<br>
+The resulting model is stored in the AlphabetSoupCharity.h5 <br>
+This result is very close to the 72.63% result in the example given in the starter_code to indicate an approximate expected outcome.<br>
 
 
-#### Optimizing the Model
+### Optimizing the Model
 Step 3 of the project was to try optimising the model to get the probability of predicting the funding application outcome to above 75% (which is relatively low success rate for a predictability)
 
-### 'Manual' optimization techniques as learnt in class (PDF file)ts given. 
+#### 'Manual' optimization techniques as learnt in class (PDF file)ts given. 
 
-In the folder named 'Optimsation Attempts using class strategies from PDF', I made 3 attempts at optimization using techniques learnt in class as per the PDF located at:  https://git.bootcampcontent.com/Monash-University/MONU-VIRT-DATA-PT-02-2024-U-LOLC/-/tree/main/01-Lesson-Plans/21-Neural-Networks-Deep-Learning/2?ref_type=heads: 
+In the folder named 'Optimsation Attempts using class strategies from PDF', I made 3 attempts at optimization using techniques learnt in class as per the PDF located at:  https://git.bootcampcontent.com/Monash-University/MONU-VIRT-DATA-PT-02-2024-U-LOLC/-/tree/main/01-Lesson-Plans/21-Neural-Networks-Deep-Learning/2?ref_type=heads:   <br>
 
 * (1) using 'tanh' as an activation function in a hidden layer, instead of 'relu', to try io increase the accuracy of the model to over 75%.
 
@@ -117,10 +119,13 @@ In the folder named 'Optimsation Attempts using class strategies from PDF', I ma
 
 * (3) using a third hidden layer to try to find additional relationships between the data, and get the accuracy of the data to over 75%.
 
-Given that none, of the above optimization attempts increased the accuracy to over 75%, I tried using a keras_tuner to again reduce loss, and increase accuracy of th
-### Keras-tuner optimization techniquese model.  
+Given that none, of the above optimization attempts increased the accuracy to over 75%, I tried using a keras_tuner to again reduce loss, and increase accuracy of the model.<br>
 
-See the folder named 'Optimization Attempts using Keras Tuner', where I tried 2 models, one with far less neurons ('AlphabetSoupCharity_Optimisation.ipynb') than that original starter_code.ipynb file, and one 50 to 80 neurons as the units for the first layer ('AlphabetSoupCharity_Optimisation_Final_More_Neurons### Summary Results for Step 3
+#### Keras-tuner optimization techniquese model.  
+
+See the folder named 'Optimization Attempts using Keras Tuner', where I tried 2 models, one with far less neurons ('AlphabetSoupCharity_Optimisation.ipynb') than that original starter_code.ipynb file, and one 50 to 80 neurons as the units for the first layer ('AlphabetSoupCharity_Optimisation_Final_More_Neurons
+
+### Summary Results for Step 3
 As per the details below, I tried both 'manual' techiniques suggested in class exercises, and also the more automated tuning process of the keras tuner model.   However, I was not able to get any models to reach 75% or more in accuracy.  This highest achieved was still only 0.7278 accuracy, and the rate of loss really never slowed in any of the techniques attempted. .pprovers. 
 
 #### References:
